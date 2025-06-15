@@ -29,10 +29,17 @@ print("\n* Bernoulli *")
 print(f"P(X=1): {stats.bernoulli.pmf(1, p):.4f}")  # Exact point
 print(f"P(X=0): {stats.bernoulli.pmf(0, p):.4f}")
 
+# Mean, Variance and Standard deviation
+print(f"Mean: {p:.4f} (expected value of single trial)")
+print(f"Variance: {p*(1-p):.4f} (measure of outcome uncertainty)")
+print(f"Std Dev: {np.sqrt(p*(1-p)):.4f} (typical deviation from mean)")
+
 # ****************************************************************************************************************
 
 # Binomial distribution
 # Fixed number of independent Bernoulli trials (number of heads in 10 coin flips, defective items in batch)
+# The binomial distribution is computationally more demanding than the normal distribution, with large n and p not too close
+# to 0 or 1, the binomial distribution can be approximated by the normal distribution (courtesy of the Central Limit Theorem)
 n, p = 10, 0.4   # Number of trials, probability of success
 
 # Interpretation:
@@ -57,6 +64,11 @@ print(f"P(X ≤ 3): {stats.binom.cdf(3, n, p):.4f}")         # 0-3 successes
 # Special cases
 print(f"P(X ≠ 4): {1 - stats.binom.pmf(4, n, p):.4f}")     # All except 4 successes
 print(f"P(X ∈ {{2,5,7}}): {sum(stats.binom.pmf([2,5,7], n, p)):.4f}")  # Specific values
+
+# Mean, Variance and Standard deviation
+print(f"Mean: {n*p:.4f} (expected number of successes)")
+print(f"Variance: {n*p*(1-p):.4f} (variability in success count)")
+print(f"Std Dev: {np.sqrt(n*p*(1-p)):.4f} (typical deviation from expected successes)")
 
 # ****************************************************************************************************************
 
@@ -85,6 +97,11 @@ print(f"P(3 < X < 7): {stats.geom.cdf(6, p) - stats.geom.cdf(3, p):.4f}")   # St
 # Special cases
 print(f"P(X is odd): {sum(stats.geom.pmf(range(1, 100, 2), p)):.4f}")  # Success on 1st, 3rd, 5th,... trial
 print(f"P(X ∈ {{1, 3, 5}}): {sum(stats.geom.pmf([1, 3, 5], p)):.4f}")  # Specific trial numbers
+
+# Mean, Variance and Standard deviation
+print(f"Mean: {1/p:.4f} (expected trials until first success)")
+print(f"Variance: {(1-p)/(p**2):.4f} (variability in trial number)")
+print(f"Std Dev: {np.sqrt((1-p)/(p**2)):.4f} (typical deviation from expected trials)")
 
 # ****************************************************************************************************************
 
@@ -115,6 +132,11 @@ print(f"P(X is even): {sum(stats.nbinom.pmf(range(0, 100, 2), r, p)):.4f}")  # E
 print(f"P(X ∈ {{1, 3, 5}}): {sum(stats.nbinom.pmf([1, 3, 5], r, p)):.4f}")   # Specific failure counts
 print(f"P(total trials ≤ 6): {stats.nbinom.cdf(3, r, p):.4f}")               # r=3 successes + ≤3 failures
 
+# Mean, Variance and Standard deviation
+print("\nNegative Binomial:")
+print(f"Mean: {r*(1-p)/p:.4f} (expected failures before r successes)")
+print(f"Variance: {r*(1-p)/(p**2):.4f} (variability in failure count)")
+print(f"Std Dev: {np.sqrt(r*(1-p)/(p**2)):.4f} (typical deviation from expected failures)")
 
 # ****************************************************************************************************************
 
@@ -146,6 +168,10 @@ print(f"P(X is even): {sum(stats.poisson.pmf(range(0, 50, 2), lam)):.4f}")  # Ev
 print(f"P(X ∈ {{1, 3, 5}}): {sum(stats.poisson.pmf([1, 3, 5], lam)):.4f}")  # Specific event counts
 print(f"P(μ-σ ≤ X ≤ μ+σ): {stats.poisson.cdf(lam + np.sqrt(lam), lam) - stats.poisson.cdf(lam - np.sqrt(lam) - 1, lam):.4f}")  # Within 1 SD of mean
 
+# Mean, Variance and Standard deviation
+print(f"Mean: {lam:.4f} (expected event count per interval)")
+print(f"Variance: {lam:.4f} (equal to mean - key Poisson property)")
+print(f"Std Dev: {np.sqrt(lam):.4f} (typical deviation from expected count)")
 
 # ****************************************************************************************************************
 
@@ -169,6 +195,12 @@ print(f"P(2.5 ≤ X ≤ 4.5): {stats.uniform.cdf(4.5, a, b-a) - stats.uniform.cd
 print(f"P(X ≤ 3.5): {stats.uniform.cdf(3.5, a, b-a):.4f}")
 print(f"P(X > 4.2): {1 - stats.uniform.cdf(4.2, a, b-a):.4f}")
 print(f"P(X < 4.2): {stats.uniform.cdf(4.2, a, b-a):.4f}")
+
+# Mean, Variance and Standard deviation
+print(f"Mean: {(a+b)/2:.4f} (midpoint of interval)")
+print(f"Variance: {(b-a)**2/12:.4f} (spread of uniform distribution)")
+print(f"Std Dev: {(b-a)/np.sqrt(12):.4f} (typical deviation from center)")
+
 # ****************************************************************************************************************
 
 # Exponential distribution
@@ -183,6 +215,32 @@ print("\n* Exponential *")
 print(f"P(1.0 ≤ X ≤ 3.0): {stats.expon.cdf(3.0, scale=1/lam) - stats.expon.cdf(1.0, scale=1/lam):.4f}")
 print(f"P(X ≤ 2.0): {stats.expon.cdf(2.0, scale=1/lam):.4f}")
 print(f"P(X > 1.5): {1 - stats.expon.cdf(1.5, scale=1/lam):.4f}")
+
+# Mean, Variance and Standard deviation
+print(f"Mean: {1/lam:.4f} (expected waiting time)")
+print(f"Variance: {1/(lam**2):.4f} (variability in waiting times)")
+print(f"Std Dev: {1/lam:.4f} (equal to mean - memoryless property)")
+
+# ****************************************************************************************************************
+
+# Chi-square distribution
+# Chi-square distribution
+# Hypothesis testing, goodness-of-fit tests, variance testing (test statistics in statistical inference)
+df = 3  # Degrees of freedom
+
+# Interpretation:
+#  - P(1.0 ≤ X ≤ 5.0) = Probability test statistic falls between 1.0 and 5.0
+#  - P(X > 7.815) = Probability of exceeding critical value (α=0.05 for df=3)
+
+print("\n* Chi-square *")
+print(f"P(1.0 ≤ X ≤ 5.0): {stats.chi2.cdf(5.0, df) - stats.chi2.cdf(1.0, df):.4f}")
+print(f"P(X ≤ 2.0): {stats.chi2.cdf(2.0, df):.4f}")
+print(f"P(X > 7.815): {1 - stats.chi2.cdf(7.815, df):.4f}")
+
+# Mean, Variance and Standard deviation
+print(f"Mean: {df:.4f} (equals degrees of freedom)")
+print(f"Variance: {2*df:.4f} (twice the degrees of freedom)")
+print(f"Std Dev: {np.sqrt(2*df):.4f} (√(2×df))")
 
 # ****************************************************************************************************************
 
@@ -199,6 +257,11 @@ print(f"P(-1.0 ≤ X ≤ 1.0): {stats.norm.cdf(1.0, mu, sigma) - stats.norm.cdf(
 print(f"P(X ≤ 0.5): {stats.norm.cdf(0.5, mu, sigma):.4f}")
 print(f"P(X > 1.96): {1 - stats.norm.cdf(1.96, mu, sigma):.4f}")
 
+# Mean, Variance and Standard deviation
+print(f"Mean: {mu:.4f} (center of bell curve)")
+print(f"Variance: {sigma**2:.4f} (spread parameter squared)")
+print(f"Std Dev: {sigma:.4f} (68% of data within ±1σ of mean)")
+
 # ****************************************************************************************************************
 
 # Beta distribution
@@ -213,6 +276,13 @@ print("\n* Beta *")
 print(f"P(0.2 ≤ X ≤ 0.7): {stats.beta.cdf(0.7, alpha, beta_param) - stats.beta.cdf(0.2, alpha, beta_param):.4f}")
 print(f"P(X ≤ 0.5): {stats.beta.cdf(0.5, alpha, beta_param):.4f}")
 print(f"P(X > 0.6): {1 - stats.beta.cdf(0.6, alpha, beta_param):.4f}")
+
+# Mean, Variance and Standard deviation
+mean_beta = alpha/(alpha + beta_param)
+var_beta = (alpha * beta_param)/((alpha + beta_param)**2 * (alpha + beta_param + 1))
+print(f"Mean: {mean_beta:.4f} (expected proportion value)")
+print(f"Variance: {var_beta:.4f} (variability in proportion)")
+print(f"Std Dev: {np.sqrt(var_beta):.4f} (typical deviation from expected proportion)")
 
 # ****************************************************************************************************************
 
@@ -229,6 +299,11 @@ print(f"P(1.0 ≤ X ≤ 4.0): {stats.gamma.cdf(4.0, shape, scale=scale) - stats.
 print(f"P(X ≤ 2.5): {stats.gamma.cdf(2.5, shape, scale=scale):.4f}")
 print(f"P(X > 3.0): {1 - stats.gamma.cdf(3.0, shape, scale=scale):.4f}")
 
+# Mean, Variance and Standard deviation
+print(f"Mean: {shape*scale:.4f} (expected event time)")
+print(f"Variance: {shape*(scale**2):.4f} (variability in timing)")
+print(f"Std Dev: {np.sqrt(shape)*scale:.4f} (typical deviation from expected time)")
+
 # ****************************************************************************************************************
 
 # Student's t distribution
@@ -243,3 +318,8 @@ print("\n* Student's t *")
 print(f"P(-1.5 ≤ X ≤ 1.5): {stats.t.cdf(1.5, df) - stats.t.cdf(-1.5, df):.4f}")
 print(f"P(X ≤ 1.0): {stats.t.cdf(1.0, df):.4f}")
 print(f"P(X > 2.0): {1 - stats.t.cdf(2.0, df):.4f}")
+
+# Mean, Variance and Standard deviation
+print(f"Mean: 0.0000 (symmetric around zero for df > 1)")
+print(f"Variance: {df/(df-2):.4f} (approaches 1 as df increases)")
+print(f"Std Dev: {np.sqrt(df/(df-2)):.4f} (heavier tails than normal)")
