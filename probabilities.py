@@ -134,6 +134,7 @@ print(f"P(X=2 events): {stats.poisson.pmf(2, lam):.4f}")  # Exactly 2 events occ
 # Cumulative probabilities (CDF)
 print(f"P(X ≤ 3): {stats.poisson.cdf(3, lam):.4f}")        # 3 or fewer events
 print(f"P(X > 5): {1 - stats.poisson.cdf(5, lam):.4f}")    # 6+ events
+print(f"P(X < 5): {stats.poisson.cdf(4, lam):.4f}")        # 4 or fewer events
 print(f"P(X ≥ 4): {1 - stats.poisson.cdf(3, lam):.4f}")    # Alternative to P(X>3)
 
 # Range probabilities
@@ -167,7 +168,7 @@ print("\n* Uniform *")
 print(f"P(2.5 ≤ X ≤ 4.5): {stats.uniform.cdf(4.5, a, b-a) - stats.uniform.cdf(2.5, a, b-a):.4f}")
 print(f"P(X ≤ 3.5): {stats.uniform.cdf(3.5, a, b-a):.4f}")
 print(f"P(X > 4.2): {1 - stats.uniform.cdf(4.2, a, b-a):.4f}")
-
+print(f"P(X < 4.2): {stats.uniform.cdf(4.2, a, b-a):.4f}")
 # ****************************************************************************************************************
 
 # Exponential distribution
